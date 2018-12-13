@@ -1,6 +1,6 @@
 #include<iostream>
 #include<cstdio>
-#define N 1000010 
+#define N 1000001 
 using namespace std;
 int tree[N],n,m;
 int lowbit(int x){return x&-x;}
