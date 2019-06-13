@@ -1,5 +1,5 @@
 # Cpp model
 
-## ***There are a lot of c++ models***
+## ***There are some of c++ models***
 
-### *C++ is the best programming language in the world*
+>C++ is the best programming language in the world
