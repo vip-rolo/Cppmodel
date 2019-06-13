@@ -1,42 +1,41 @@
 #include<cstdio>
 #define N 100100
-#define ll long long
 using namespace std;
 struct node
 {
-    ll val,tag;
+    int val,tag;
 } tree[N*4];
-ll n,m;
-inline void pushup(ll root)
+int n,m;
+inline void pushup(int root)
 {
 	tree[root].val=tree[root<<1].val+tree[root<<1|1].val;
 }
-inline void Pushdown(ll root,ll x,ll y,ll tag)
+inline void Pushdown(int root,int x,int y,int tag)
 {
     tree[root].val+=(y-x+1)*tag;
     tree[root].tag+=tag;
 }
-inline void pushdown(ll root,ll x,ll y)
+inline void pushdown(int root,int x,int y)
 {
     if(tree[root].tag==0) return;
-    ll mid=(x+y)>>1;
+    int mid=(x+y)>>1;
     Pushdown(root<<1,x,mid,tree[root].tag);
     Pushdown(root<<1|1,mid+1,y,tree[root].tag);
     tree[root].tag=0;
 }
-inline void build(ll root,ll x,ll l,ll r,ll val)
+inline void build(int root,int x,int l,int r,int val)
 {
 	if(l==r&&l==x)
 	{
 		tree[root].val+=val;
 		return;
 	}
-	ll mid=(l+r)>>1;
+	int mid=(l+r)>>1;
 	if(x<=mid) build(root<<1,x,l,mid,val);
 	else if(mid<r) build(root<<1|1,x,mid+1,r,val);
 	pushup(root);
 }
-inline void add(ll root,ll x,ll y,ll l,ll r,ll val)
+inline void add(int root,int x,int y,int l,int r,int val)
 {
     if(x<=l&&r<=y)
     {
@@ -45,23 +44,23 @@ inline void add(ll root,ll x,ll y,ll l,ll r,ll val)
         return;
     }
 	pushdown(root,l,r);
-    ll mid=(l+r)>>1;
+    int mid=(l+r)>>1;
     if(x<=mid) add(root<<1,x,y,l,mid,val);
     if(mid<y) add(root<<1|1,x,y,mid+1,r,val);
     pushup(root);
 }
-ll query(ll root,ll x,ll y,ll l,ll r)
+int query(int root,int x,int y,int l,int r)
 {
     if(x<=l&&r<=y) return tree[root].val;
     pushdown(root,l,r);
-    ll mid=(l+r)>>1,ans=0;
+    int mid=(l+r)>>1,ans=0;
     if(x<=mid) ans+=query(root<<1,x,y,l,mid);
     if(mid<y) ans+=query(root<<1|1,x,y,mid+1,r);
     return ans;
 }
 int main()
 {
-    ll i,x,y,ans;
+    int i,x,y,ans;
     char op;
     scanf("%lld%lld",&n,&m);
     for(i=1;i<=n;i++)
