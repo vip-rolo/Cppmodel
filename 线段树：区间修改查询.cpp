@@ -1,4 +1,3 @@
-
 #include<cstdio>
 #define N 100100
 using namespace std;
