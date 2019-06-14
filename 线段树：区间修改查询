@@ -1,3 +1,4 @@
+
 #include<cstdio>
 #define N 100100
 using namespace std;
@@ -62,10 +63,10 @@ int main()
 {
     int i,x,y,ans;
     char op;
-    scanf("%lld%lld",&n,&m);
+    scanf("%d%d",&n,&m);
     for(i=1;i<=n;i++)
     {
-        scanf("%lld",&x);
+        scanf("%d",&x);
         build(1,i,1,n,x);
     }
     while(m--)
@@ -73,14 +74,14 @@ int main()
         scanf("%s",&op);
         if(op=='1')
         {
-            scanf("%lld%lld%lld",&x,&y,&i);
+            scanf("%d%d%d",&x,&y,&i);
             add(1,x,y,1,n,i);
         }
         else
         {
-            scanf("%lld%lld",&x,&y);
+            scanf("%d%d",&x,&y);
             ans=query(1,x,y,1,n);
-            printf("%lld\n",ans);
+            printf("%d\n",ans);
         }
     }
     return 0;
