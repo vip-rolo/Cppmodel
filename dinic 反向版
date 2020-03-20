@@ -1,0 +1,81 @@
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+#include<cstring>
+#include<queue>
+#define N 1000100
+#define inf 0x3f3f3f3f
+using namespace std;
+int n,m,mflow,head[N],dep[N],len=1,s,t;
+struct edge{
+    int to,next,val;
+}e[N];
+void add(int f,int to,int d)
+{
+    e[++len]=(edge){to,head[f],d};
+    head[f]=len;
+    e[++len]=(edge){f,head[to],0};
+    head[to]=len;
+}
+bool bfs()
+{
+    memset(dep,0,sizeof(dep));
+    queue<int> q;
+    dep[t]=1;q.push(t);
+    while(!q.empty())
+    {
+        int now=q.front();
+        q.pop();
+        for(int i=head[now];i;i=e[i].next)
+        {
+            if(e[i^1].val&&!dep[e[i].to])
+            {
+                dep[e[i].to]=dep[now]+1;
+                q.push(e[i].to);
+            }
+        }
+    }
+    if(dep[s])return 1;
+    return 0;
+}
+int dfs(int now,int flow)
+{
+    if(now==t)return flow;
+    int w,used=0;
+    for(int i=head[now];i;i=e[i].next)
+    {
+        if(dep[e[i].to]==dep[now]-1&&e[i].val)
+        {
+            if((w=dfs(e[i].to,min(flow-used,e[i].val))))
+            {
+            	e[i].val-=w;
+            	e[i^1].val+=w;
+            	used+=w;
+			}
+        }
+    }
+    return used;
+}
+void dinic()
+{
+    int d=0;
+    while(bfs())
+    {
+        while((d=dfs(s,inf)))
+        mflow+=d;
+    }
+}
+int main()
+{
+    memset(head,0,sizeof(head));
+    int i,x,y,z;
+    scanf("%d%d%d%d",&n,&m,&s,&t);
+    for(i=1;i<=m;i++)
+    {
+        scanf("%d%d%d",&x,&y,&z);
+        add(x,y,z);
+    }
+    dinic();
+    printf("%d",mflow);
+    return 0;
+}
